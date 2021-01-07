@@ -1,0 +1,9 @@
+apicurio-studio-api    apicurio-studio-api.apps.nonprod.iciciltd.com              apicurio-studio-api    <all>      edge/Redirect   None
+apicurio-studio-auth   apicurio-studio-auth.apps.nonprod.iciciltd.com             apicurio-studio-auth   <all>      edge/Redirect   None
+apicurio-studio-ui     apicurio-studio-ui.apps.nonprod.iciciltd.com               apicurio-studio-ui     <all>      edge/Redirect   None
+apicurio-studio-ws     apicurio-studio-ws.apps.nonprod.iciciltd.com               apicurio-studio-ws     <all>      edge/Redirect   None
+keycloak               keycloak.apps.nonprod.iciciltd.com                         keycloak               <all>                      None
+microcks               microck.apps.nonprod.iciciltd.com                          microcks               spring                     None
+nexus                  nexus.apps.nonprod.iciciltd.com                            nexus                  8081-tcp                   None
+sonar                  sonarqube.apps.nonprod.iciciltd.com                        sonar                  <all>                      None
+
