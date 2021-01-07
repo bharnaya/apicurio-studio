@@ -80,6 +80,7 @@ objects:
   spec:
     accessModes:
     - ReadWriteOnce
+    storageClassName: managed-nfs-storage
     resources:
       requests:
         storage: 1Gi
@@ -90,6 +91,7 @@ objects:
   spec:
     accessModes:
     - ReadWriteOnce
+    storageClassName: managed-nfs-storage
     resources:
       requests:
         storage: 1Gi
@@ -282,28 +284,6 @@ objects:
             volumeMounts:
               - name: postgresql-data
                 mountPath: /var/lib/pgsql/data
-            livenessProbe:
-              tcpSocket:
-                port: 5432
-              initialDelaySeconds: 30
-              timeoutSeconds: 1
-              periodSeconds: 10
-              successThreshold: 1
-              failureThreshold: 3
-            readinessProbe:
-              exec:
-                command:
-                  - /bin/sh
-                  - '-i'
-                  - '-c'
-                  - >-
-                    psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d
-                    $POSTGRESQL_DATABASE -c 'SELECT 1'
-              initialDelaySeconds: 5
-              timeoutSeconds: 1
-              periodSeconds: 10
-              successThreshold: 1
-              failureThreshold: 3
             terminationMessagePath: /dev/termination-log
             imagePullPolicy: Always
             securityContext:
@@ -379,26 +359,6 @@ objects:
             requests:
               cpu: ${AUTH_CPU_REQUEST}
               memory: ${AUTH_MEM_REQUEST}
-          livenessProbe:
-            httpGet:
-              path: /auth
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 90
-            timeoutSeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /auth
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 80
-            timeoutSeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 3
           terminationMessagePath: /dev/termination-log
         dnsPolicy: ClusterFirst
         restartPolicy: Always
@@ -483,26 +443,6 @@ objects:
             requests:
               cpu: ${API_CPU_REQUEST}
               memory: ${API_MEM_REQUEST}
-          livenessProbe:
-            httpGet:
-              path: /system/ready
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 30
-            timeoutSeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /system/ready
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 3
           terminationMessagePath: /dev/termination-log
         dnsPolicy: ClusterFirst
         restartPolicy: Always
@@ -583,26 +523,6 @@ objects:
             requests:
               cpu: ${WS_CPU_REQUEST}
               memory: ${WS_MEM_REQUEST}
-          livenessProbe:
-            httpGet:
-              path: /metrics
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 30
-            timeoutSeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /metrics
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 3
           terminationMessagePath: /dev/termination-log
         dnsPolicy: ClusterFirst
         restartPolicy: Always
@@ -677,26 +597,6 @@ objects:
             requests:
               cpu: ${UI_CPU_REQUEST}
               memory: ${UI_MEM_REQUEST}
-          livenessProbe:
-            httpGet:
-              path: /ready
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 30
-            timeoutSeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /ready
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 3
           terminationMessagePath: /dev/termination-log
         dnsPolicy: ClusterFirst
         restartPolicy: Always
@@ -834,7 +734,7 @@ parameters:
   description: Password for the Keycloak admin user.
   generate: expression
   from: "[a-zA-Z0-9]{16}"
-  value: password
+  value: changeme123
 - name: UI_JVM_MIN
   displayName: UI Min JVM Memory Limit
   description: UI Min JVM Memory Limit

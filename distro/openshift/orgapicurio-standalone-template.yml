@@ -80,6 +80,7 @@ objects:
   spec:
     accessModes:
     - ReadWriteOnce
+    storageClassName: managed-nfs-storage
     resources:
       requests:
         storage: 1Gi
@@ -90,6 +91,7 @@ objects:
   spec:
     accessModes:
     - ReadWriteOnce
+    storageClassName: managed-nfs-storage
     resources:
       requests:
         storage: 1Gi
@@ -790,57 +792,51 @@ parameters:
 - name: UI_ROUTE
   displayName: User Interface Route Name
   description: The route name to use for the UI.
-  value: apicurio-studio.example.com
-  required: true
+  value: apicurio-studio-ui.apps.nonprod.iciciltd.com
 - name: API_ROUTE
   displayName: API Route Name
   description: The route name to use for the API.
-  value: apicurio-studio-api.example.com
-  required: true
+  value: apicurio-studio-api.apps.nonprod.iciciltd.com
 - name: WS_ROUTE
   displayName: Editing Route Name
   description: The route name to use for editing layer (websocket based).
-  value: apicurio-studio-ws.example.com
-  required: true
+  value: apicurio-studio-ws.apps.nonprod.iciciltd.com
 - name: AUTH_ROUTE
   displayName: Authentication Route Name
   description: The route name to use for Keycloak Authentication.
-  value: apicurio-studio-auth.example.com
-  required: true
+  value: apicurio-studio-auth.apps.nonprod.iciciltd.com
 - name: GENERATED_DB_USER
   displayName: PostgreSQL Connection Username
   description: Username for PostgreSQL user that will be used for accessing the database.
   generate: expression
   from: user[A-Z0-9]{3}
-  required: true
+  value: user
 - name: GENERATED_DB_PASS
   displayName: PostgreSQL Connection Password
   description: Password for the PostgreSQL connection user.
   generate: expression
   from: "[a-zA-Z0-9]{16}"
-  required: true
+  value: password
 - name: DB_NAME
   displayName: Database Name
   description: The name of the Postgresql database.
   value: apicuriodb
-  required: true
 - name: KC_REALM
   displayName: Keycloak Realm
   description: The name of the Keycloak realm to use for authentication.
   value: apicurio
-  required: true
 - name: GENERATED_KC_USER
   displayName: Keycloak Admin Username
   description: Username for the Keycloak admin user.
   generate: expression
   from: admin[A-Z0-9]{3}
-  required: true
+  value: user
 - name: GENERATED_KC_PASS
   displayName: Keycloak Admin Password
   description: Password for the Keycloak admin user.
   generate: expression
   from: "[a-zA-Z0-9]{16}"
-  required: true
+  value: password
 - name: UI_JVM_MIN
   displayName: UI Min JVM Memory Limit
   description: UI Min JVM Memory Limit
@@ -855,7 +851,6 @@ parameters:
   displayName: UI Max Memory Limit
   description: UI Pods Max Memory Limit
   value: 1500Mi
-  required: true
 - name: UI_MEM_REQUEST
   displayName: UI Memory Request
   description: UI Pods Memory Request
@@ -864,13 +859,12 @@ parameters:
 - name: UI_CPU_LIMIT
   displayName: UI Max CPU Limit
   description: UI Pods Max CPU Limit
-  value: '1'
+  value: '5'
   required: true
 - name: UI_CPU_REQUEST
   displayName: UI CPU Request
   description: UI Pods CPU Request
-  value: 100m
-  required: true
+  value: 500m
 - name: API_JVM_MIN
   displayName: API Min JVM Memory Limit
   description: API Min JVM Memory Limit
@@ -880,27 +874,22 @@ parameters:
   displayName: API Max JVM Memory Limit
   description: API Max JVM Memory Limit
   value: 1400m
-  required: false
 - name: API_MEM_LIMIT
   displayName: API Max Memory Limit
   description: API Pods Max Memory Limit
   value: 1700Mi
-  required: true
 - name: API_MEM_REQUEST
   displayName: API Memory Request
   description: API Pods Memory Request
   value: 800Mi
-  required: true
 - name: API_CPU_LIMIT
   displayName: API Max CPU Limit
   description: API Pods Max CPU Limit
-  value: '1'
-  required: true
+  value: '5'
 - name: API_CPU_REQUEST
   displayName: API CPU Request
   description: API Pods CPU Request
-  value: 100m
-  required: true
+  value: 500m
 - name: WS_JVM_MIN
   displayName: WS Min JVM Memory Limit
   description: WS Min JVM Memory Limit
@@ -915,39 +904,31 @@ parameters:
   displayName: WS Max Memory Limit
   description: WS Pods Max Memory Limit
   value: 1800Mi
-  required: true
 - name: WS_MEM_REQUEST
   displayName: WS Memory Request
   description: WS Pods Memory Request
   value: 900Mi
-  required: true
 - name: WS_CPU_LIMIT
   displayName: WS Max CPU Limit
   description: WS Pods Max CPU Limit
-  value: '1'
-  required: true
+  value: '5'
 - name: WS_CPU_REQUEST
   displayName: WS CPU Request
   description: WS Pods CPU Request
-  value: 100m
-  required: true
+  value: 500m
 - name: AUTH_MEM_LIMIT
   displayName: AUTH Max Memory Limit
   description: AUTH Pods Max Memory Limit
   value: 1300Mi
-  required: true
 - name: AUTH_MEM_REQUEST
   displayName: AUTH Memory Request
   description: AUTH Pods Memory Request
   value: 600Mi
-  required: true
 - name: AUTH_CPU_LIMIT
   displayName: AUTH Max CPU Limit
   description: AUTH Pods Max CPU Limit
-  value: '1'
-  required: true
+  value: '5'
 - name: AUTH_CPU_REQUEST
   displayName: AUTH CPU Request
   description: AUTH Pods CPU Request
-  value: 100m
-  required: true
+  value: 300m
